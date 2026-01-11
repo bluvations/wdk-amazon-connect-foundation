@@ -33,6 +33,30 @@ async function main() {
     console.log('Config values:', Object.keys(loadedConfig).join(', '));
   }
 
+  const setupStackName = 'amazon-connect-foundation.setup';
+  const getSetupBool = (propertyName: string, defaultValue: boolean): boolean => {
+    const key = `${setupStackName}.${propertyName}`;
+    const raw = (loadedConfig as any)[key];
+    if (raw === undefined || raw === null || raw === '') {
+      return defaultValue;
+    }
+    if (typeof raw === 'boolean') {
+      return raw;
+    }
+    const normalized = String(raw).trim().toLowerCase();
+    if (normalized === 'true') {
+      return true;
+    }
+    if (normalized === 'false') {
+      return false;
+    }
+    try {
+      return Boolean(JSON.parse(String(raw)));
+    } catch {
+      return defaultValue;
+    }
+  };
+
   new AmazonConnectFoundationStack(app, `wdk-${prefixName}-${stageName}-amazon-connect-foundation`, {
     prefixName,
     stageName,
@@ -51,17 +75,17 @@ async function main() {
       ManagedBy: 'WDK',
     },
     // Storage bucket configuration
-    separateChatTranscriptsBucket: true,
-    separateScheduledReportsBucket: true,
-    separateAttachmentsBucket: true,
-    separateContactEvaluationsBucket: true,
-    separateScreenRecordingsBucket: true,
-    separateEmailMessagesBucket: true,
+    separateChatTranscriptsBucket: getSetupBool('separateChatTranscriptsBucket', true),
+    separateScheduledReportsBucket: getSetupBool('separateScheduledReportsBucket', true),
+    separateAttachmentsBucket: getSetupBool('separateAttachmentsBucket', true),
+    separateContactEvaluationsBucket: getSetupBool('separateContactEvaluationsBucket', true),
+    separateScreenRecordingsBucket: getSetupBool('separateScreenRecordingsBucket', true),
+    separateEmailMessagesBucket: getSetupBool('separateEmailMessagesBucket', true),
     // Stream configuration
-    enableCTRStream: true,
-    enableAgentEventsStream: true,
-    enableRealTimeContactAnalysisChatSegmentsStream: true,
-    enableRealTimeContactAnalysisVoiceSegmentsStream: true,
+    enableCTRStream: getSetupBool('enableCTRStream', true),
+    enableAgentEventsStream: getSetupBool('enableAgentEventsStream', true),
+    enableRealTimeContactAnalysisChatSegmentsStream: getSetupBool('enableRealTimeContactAnalysisChatSegmentsStream', true),
+    enableRealTimeContactAnalysisVoiceSegmentsStream: getSetupBool('enableRealTimeContactAnalysisVoiceSegmentsStream', true),
   });
 
   app.synth();

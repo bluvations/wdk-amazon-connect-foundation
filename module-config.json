@@ -4,6 +4,68 @@
   "createdAt": "2025-10-16T16:02:36.676Z",
   "createdBy": "davideyanson",
   "requiredInputs": [],
+  "setupQuestions": [
+    {
+      "propertyName": "separateChatTranscriptsBucket",
+      "message": "Do you want Chat Transcripts to be stored in their own bucket (instead of the main Connect bucket)?",
+      "type": "boolean",
+      "default": true
+    },
+    {
+      "propertyName": "separateScheduledReportsBucket",
+      "message": "Do you want Scheduled Reports to be stored in their own bucket (instead of the main Connect bucket)?",
+      "type": "boolean",
+      "default": true
+    },
+    {
+      "propertyName": "separateAttachmentsBucket",
+      "message": "Do you want Attachments to be stored in their own bucket (instead of the main Connect bucket)?",
+      "type": "boolean",
+      "default": true
+    },
+    {
+      "propertyName": "separateContactEvaluationsBucket",
+      "message": "Do you want Contact Evaluations to be stored in their own bucket (instead of the main Connect bucket)?",
+      "type": "boolean",
+      "default": true
+    },
+    {
+      "propertyName": "separateScreenRecordingsBucket",
+      "message": "Do you want Screen Recordings to be stored in their own bucket (instead of the main Connect bucket)?",
+      "type": "boolean",
+      "default": true
+    },
+    {
+      "propertyName": "separateEmailMessagesBucket",
+      "message": "Do you want Email Messages to be stored in their own bucket (instead of the main Connect bucket)?",
+      "type": "boolean",
+      "default": true
+    },
+    {
+      "propertyName": "enableCTRStream",
+      "message": "Enable Contact Trace Record (CTR) streaming?",
+      "type": "boolean",
+      "default": true
+    },
+    {
+      "propertyName": "enableAgentEventsStream",
+      "message": "Enable Agent Events streaming?",
+      "type": "boolean",
+      "default": true
+    },
+    {
+      "propertyName": "enableRealTimeContactAnalysisChatSegmentsStream",
+      "message": "Enable Real-Time Contact Analysis (Chat Segments) streaming?",
+      "type": "boolean",
+      "default": true
+    },
+    {
+      "propertyName": "enableRealTimeContactAnalysisVoiceSegmentsStream",
+      "message": "Enable Real-Time Contact Analysis (Voice Segments) streaming?",
+      "type": "boolean",
+      "default": true
+    }
+  ],
   "outputs": [
     {
       "propertyName": "ConnectKmsKeyArn",
