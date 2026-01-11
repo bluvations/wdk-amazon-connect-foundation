@@ -57,6 +57,18 @@ async function main() {
     }
   };
 
+  const getFoundationString = (propertyName: string, defaultValue?: string): string => {
+    const key = `foundation.${propertyName}`;
+    const raw = (loadedConfig as any)[key];
+    if (raw === undefined || raw === null || raw === '') {
+      if (defaultValue !== undefined) {
+        return defaultValue;
+      }
+      throw new Error(`Missing required foundation config value: ${key}`);
+    }
+    return String(raw);
+  };
+
   new AmazonConnectFoundationStack(app, `wdk-${prefixName}-${stageName}-amazon-connect-foundation`, {
     prefixName,
     stageName,
@@ -88,6 +100,7 @@ async function main() {
     enableRealTimeContactAnalysisVoiceSegmentsStream: getSetupBool('enableRealTimeContactAnalysisVoiceSegmentsStream', true),
     // Amazon Connect instance configuration
     enableHighVolumeOutbound: getSetupBool('enableHighVolumeOutbound', true),
+    foundationEncryptionKeyAlias: getFoundationString('EncryptionKeyAlias'),
   });
 
   app.synth();

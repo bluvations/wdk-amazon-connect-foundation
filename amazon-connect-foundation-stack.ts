@@ -1,6 +1,6 @@
 import { WdkModule, WdkModuleProps } from '../wdk/wdk-module';
 import { Construct } from 'constructs';
-import { Key } from 'aws-cdk-lib/aws-kms';
+import { Alias, IKey } from 'aws-cdk-lib/aws-kms';
 import { CfnInstance, CfnInstanceStorageConfig} from "aws-cdk-lib/aws-connect"
 import { WdkS3 } from '../wdk/constructs/wdkS3';
 import { WdkKinesisStream } from '../wdk/constructs/wdkKinesisStream';
@@ -10,6 +10,7 @@ import { AwsCustomResource, AwsCustomResourcePolicy, PhysicalResourceId } from "
 import { Effect, PolicyStatement } from "aws-cdk-lib/aws-iam";
 
 export interface AmazonConnectFoundationStackProps extends WdkModuleProps {
+  foundationEncryptionKeyAlias: string;
   separateChatTranscriptsBucket: boolean;
   separateScheduledReportsBucket?: boolean;
   separateAttachmentsBucket?: boolean;
@@ -38,16 +39,11 @@ export class AmazonConnectFoundationStack extends WdkModule<AmazonConnectFoundat
      * to ensure consistency and make sure Amazon Connect can access all of the resources you need. This avoids silent errors
      * where Amazon Connect may try and write to a resource that it doesn't have access to because of a different KMS key.
      */
-    const aliasName = prefix + '-amazon-connect-key-alias';
-    const kmsKey = new Key(this, prefix + '-amazon-connect-key', {
-      enableKeyRotation: true,
-      alias: aliasName,
-      description: 'KMS key for WDK Amazon Connect Resources',
-    });
-
-    this.createOutput('ConnectKmsKeyArn', kmsKey.keyArn, 'arn', true);
-    this.createOutput('ConnectKmsKeyAliasName', aliasName, 'string', true);
-    this.createOutput('ConnectKmsKeyId', kmsKey.keyId, 'string', true);
+    const kmsKey: IKey = Alias.fromAliasName(
+      this,
+      'FoundationEncryptionKey',
+      this.props.foundationEncryptionKeyAlias
+    );
 
 
     const connectInstance = new CfnInstance(this, prefix + '-amazon-connect-instance', {
