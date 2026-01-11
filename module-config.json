@@ -1,0 +1,159 @@
+{
+  "moduleName": "amazon-connect-foundation",
+  "description": "This sets up a foundational Amazon Connect instance and associated infrastructure. It guides you through some basic choices and sets up  Bluvations Academy suggeseted best practices.",
+  "createdAt": "2025-10-16T16:02:36.676Z",
+  "createdBy": "davideyanson",
+  "requiredInputs": [],
+  "outputs": [
+    {
+      "propertyName": "ConnectKmsKeyArn",
+      "value": "<set at deployment>",
+      "type": "arn"
+    },
+    {
+      "propertyName": "ConnectKmsKeyAliasName",
+      "value": "<set at deployment>",
+      "type": "string"
+    },
+    {
+      "propertyName": "ConnectKmsKeyId",
+      "value": "<set at deployment>",
+      "type": "string"
+    },
+    {
+      "propertyName": "ConnectInstanceArn",
+      "value": "<set at deployment>",
+      "type": "arn"
+    },
+    {
+      "propertyName": "ConnectInstanceId",
+      "value": "<set at deployment>",
+      "type": "string"
+    },
+    {
+      "propertyName": "ConnectInstanceAlias",
+      "value": "<set at deployment>",
+      "type": "string"
+    },
+    {
+      "propertyName": "ChatTranscriptsBucketName",
+      "value": "<set at deployment>",
+      "type": "string"
+    },
+    {
+      "propertyName": "ChatTranscriptsBucketArn",
+      "value": "<set at deployment>",
+      "type": "arn"
+    },
+    {
+      "propertyName": "ChatTranscriptsBucketPrefix",
+      "value": "<set at deployment>",
+      "type": "string"
+    },
+    {
+      "propertyName": "ScheduledReportsBucketName",
+      "value": "<set at deployment>",
+      "type": "string"
+    },
+    {
+      "propertyName": "ScheduledReportsBucketArn",
+      "value": "<set at deployment>",
+      "type": "arn"
+    },
+    {
+      "propertyName": "ScheduledReportsBucketPrefix",
+      "value": "<set at deployment>",
+      "type": "string"
+    },
+    {
+      "propertyName": "CTRStreamEnabled",
+      "value": "<set at deployment>",
+      "type": "string"
+    },
+    {
+      "propertyName": "CTRStreamName",
+      "value": "<set at deployment>",
+      "type": "string"
+    },
+    {
+      "propertyName": "AgentEventsStreamEnabled",
+      "value": "<set at deployment>",
+      "type": "string"
+    },
+    {
+      "propertyName": "AgentEventsStreamName",
+      "value": "<set at deployment>",
+      "type": "string"
+    },
+    {
+      "propertyName": "MediaStreamsPrefix",
+      "value": "<set at deployment>",
+      "type": "string"
+    },
+    {
+      "propertyName": "ScreenRecordingsBucketName",
+      "value": "<set at deployment>",
+      "type": "string"
+    },
+    {
+      "propertyName": "ScreenRecordingsBucketArn",
+      "value": "<set at deployment>",
+      "type": "arn"
+    },
+    {
+      "propertyName": "ScreenRecordingsBucketPrefix",
+      "value": "<set at deployment>",
+      "type": "string"
+    },
+    {
+      "propertyName": "AttachmentsBucketName",
+      "value": "<set at deployment>",
+      "type": "string"
+    },
+    {
+      "propertyName": "AttachmentsBucketArn",
+      "value": "<set at deployment>",
+      "type": "arn"
+    },
+    {
+      "propertyName": "AttachmentsBucketPrefix",
+      "value": "<set at deployment>",
+      "type": "string"
+    },
+    {
+      "propertyName": "ContactEvaluationsBucketName",
+      "value": "<set at deployment>",
+      "type": "string"
+    },
+    {
+      "propertyName": "ContactEvaluationsBucketArn",
+      "value": "<set at deployment>",
+      "type": "arn"
+    },
+    {
+      "propertyName": "ContactEvaluationsBucketPrefix",
+      "value": "<set at deployment>",
+      "type": "string"
+    },
+    {
+      "propertyName": "RealTimeContactAnalysisVoiceSegmentsStreamEnabled",
+      "value": "<set at deployment>",
+      "type": "string"
+    },
+    {
+      "propertyName": "RealTimeContactAnalysisVoiceSegmentsStreamName",
+      "value": "<set at deployment>",
+      "type": "string"
+    },
+    {
+      "propertyName": "RealTimeContactAnalysisTextSegmentsStreamEnabled",
+      "value": "<set at deployment>",
+      "type": "string"
+    },
+    {
+      "propertyName": "RealTimeContactAnalysisTextSegmentsStreamName",
+      "value": "<set at deployment>",
+      "type": "string"
+    }
+  ]
+}
