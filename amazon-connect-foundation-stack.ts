@@ -20,6 +20,7 @@ export interface AmazonConnectFoundationStackProps extends WdkModuleProps {
   enableAgentEventsStream?: boolean;
   enableRealTimeContactAnalysisChatSegmentsStream?: boolean;
   enableRealTimeContactAnalysisVoiceSegmentsStream?: boolean;
+  enableHighVolumeOutbound?: boolean;
 }
 
 export class AmazonConnectFoundationStack extends WdkModule<AmazonConnectFoundationStackProps> {
@@ -54,7 +55,7 @@ export class AmazonConnectFoundationStack extends WdkModule<AmazonConnectFoundat
       identityManagementType: 'SAML',
       attributes: {
         autoResolveBestVoices: true,
-        highVolumeOutBound: true,
+        highVolumeOutBound: this.props.enableHighVolumeOutbound ?? true,
         contactflowLogs: true,
         outboundCalls: true,
         inboundCalls: true,

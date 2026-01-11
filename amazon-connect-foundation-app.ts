@@ -86,6 +86,8 @@ async function main() {
     enableAgentEventsStream: getSetupBool('enableAgentEventsStream', true),
     enableRealTimeContactAnalysisChatSegmentsStream: getSetupBool('enableRealTimeContactAnalysisChatSegmentsStream', true),
     enableRealTimeContactAnalysisVoiceSegmentsStream: getSetupBool('enableRealTimeContactAnalysisVoiceSegmentsStream', true),
+    // Amazon Connect instance configuration
+    enableHighVolumeOutbound: getSetupBool('enableHighVolumeOutbound', true),
   });
 
   app.synth();

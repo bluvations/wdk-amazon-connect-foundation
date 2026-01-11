@@ -64,6 +64,12 @@
       "message": "Enable Real-Time Contact Analysis (Voice Segments) streaming?",
       "type": "boolean",
       "default": true
+    },
+    {
+      "propertyName": "enableHighVolumeOutbound",
+      "message": "Enable High Volume Outbound on the Amazon Connect instance?",
+      "type": "boolean",
+      "default": true
     }
   ],
   "outputs": [
