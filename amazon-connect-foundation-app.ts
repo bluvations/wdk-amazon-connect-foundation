@@ -101,6 +101,7 @@ async function main() {
     // Amazon Connect instance configuration
     enableHighVolumeOutbound: getSetupBool('enableHighVolumeOutbound', true),
     foundationEncryptionKeyAlias: getFoundationString('EncryptionKeyAlias'),
+    foundationEncryptionKeyArn: getFoundationString('EncryptionKeyArn'),
   });
 
   app.synth();

@@ -4,7 +4,7 @@
   "createdAt": "2025-10-16T16:02:36.676Z",
   "createdBy": "davideyanson",
   "requiredInputs": [
-    "foundation.EncryptionKeyAlias"
+    "foundation.EncryptionKeyAlias", "foundation.EncryptionKeyArn"
   ],
   "setupQuestions": [
     {

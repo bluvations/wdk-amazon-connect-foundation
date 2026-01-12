@@ -11,6 +11,7 @@ import { Effect, PolicyStatement } from "aws-cdk-lib/aws-iam";
 
 export interface AmazonConnectFoundationStackProps extends WdkModuleProps {
   foundationEncryptionKeyAlias: string;
+  foundationEncryptionKeyArn: string;
   separateChatTranscriptsBucket: boolean;
   separateScheduledReportsBucket?: boolean;
   separateAttachmentsBucket?: boolean;
@@ -173,6 +174,7 @@ export class AmazonConnectFoundationStack extends WdkModule<AmazonConnectFoundat
           streamArn: ctrStream.streamArn,
         },
       });
+      ctrStreamInstanceStorageConfig.node.addDependency(connectInstance);
     }
     this.createOutput('CTRStreamEnabled', ctrSteamEnabled ? 'true' : 'false', 'string', true);
     this.createOutput('CTRStreamName', ctrStreamName, 'string', true);
@@ -197,6 +199,7 @@ export class AmazonConnectFoundationStack extends WdkModule<AmazonConnectFoundat
           streamArn: agentEventsStream.streamArn,
         },
       });
+      agentEventsStreamInstanceStorageConfig.node.addDependency(connectInstance);
     }
     this.createOutput('AgentEventsStreamEnabled', this.props.enableAgentEventsStream ? 'true' : 'false', 'string', true);
     this.createOutput('AgentEventsStreamName', agentEventsStreamName, 'string', true);
@@ -212,7 +215,7 @@ export class AmazonConnectFoundationStack extends WdkModule<AmazonConnectFoundat
         kinesisVideoStreamConfig: {
           encryptionConfig: {
             encryptionType: "KMS",
-            keyId: kmsKey.keyArn,
+            keyId: this.props.foundationEncryptionKeyArn,
           },
           prefix: "callAudio",
           retentionPeriodHours: 72,
@@ -220,7 +223,7 @@ export class AmazonConnectFoundationStack extends WdkModule<AmazonConnectFoundat
       });
 
       mediaStreamsStreamInstanceStorageConfig.node.addDependency(connectInstance);
-    
+
     this.createOutput('MediaStreamsPrefix', 'callAudio', 'string', true);
 
     /*
