@@ -42,7 +42,7 @@ export class AmazonConnectFoundationStack extends WdkModule<AmazonConnectFoundat
      */
     const kmsKey: IKey = Alias.fromAliasName(
       this,
-      'FoundationEncryptionKey',
+      'FoundationEncryptionKeyFromAlias',
       this.props.foundationEncryptionKeyAlias
     );
 
