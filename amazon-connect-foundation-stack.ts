@@ -212,12 +212,14 @@ export class AmazonConnectFoundationStack extends WdkModule<AmazonConnectFoundat
         kinesisVideoStreamConfig: {
           encryptionConfig: {
             encryptionType: "KMS",
-            keyId: kmsKey.keyArn,
+            keyId: this.props.foundationEncryptionKeyAlias,
           },
           prefix: "callAudio",
           retentionPeriodHours: 72,
         },
       });
+
+      mediaStreamsStreamInstanceStorageConfig.node.addDependency(connectInstance);
     
     this.createOutput('MediaStreamsPrefix', 'callAudio', 'string', true);
 
