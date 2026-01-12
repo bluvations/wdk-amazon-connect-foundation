@@ -212,7 +212,7 @@ export class AmazonConnectFoundationStack extends WdkModule<AmazonConnectFoundat
         kinesisVideoStreamConfig: {
           encryptionConfig: {
             encryptionType: "KMS",
-            keyId: this.props.foundationEncryptionKeyAlias,
+            keyId: kmsKey.keyArn,
           },
           prefix: "callAudio",
           retentionPeriodHours: 72,
