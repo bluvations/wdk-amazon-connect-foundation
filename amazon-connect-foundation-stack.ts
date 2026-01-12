@@ -290,7 +290,7 @@ export class AmazonConnectFoundationStack extends WdkModule<AmazonConnectFoundat
       resourceType: 'ATTACHMENTS',
       bucket: attachmentsBucketInstance,
       bucketPrefix: 'attachments',
-      key: kmsKey,
+      key: foundationEncryptionKey,
     });
     
     // Ensure the storage config is created after the instance
