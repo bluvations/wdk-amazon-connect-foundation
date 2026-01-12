@@ -1,6 +1,6 @@
 import { WdkModule, WdkModuleProps } from '../wdk/wdk-module';
 import { Construct } from 'constructs';
-import { Alias, IKey } from 'aws-cdk-lib/aws-kms';
+import { Alias, IKey, Key } from 'aws-cdk-lib/aws-kms';
 import { CfnInstance, CfnInstanceStorageConfig} from "aws-cdk-lib/aws-connect"
 import { WdkS3 } from '../wdk/constructs/wdkS3';
 import { WdkKinesisStream } from '../wdk/constructs/wdkKinesisStream';
@@ -45,6 +45,8 @@ export class AmazonConnectFoundationStack extends WdkModule<AmazonConnectFoundat
       'FoundationEncryptionKey',
       this.props.foundationEncryptionKeyAlias
     );
+
+    const foundationEncryptionKey = Key.fromKeyArn(this, 'FoundationEncryptionKey', this.props.foundationEncryptionKeyArn);
 
 
     const connectInstance = new CfnInstance(this, prefix + '-amazon-connect-instance', {
@@ -98,11 +100,11 @@ export class AmazonConnectFoundationStack extends WdkModule<AmazonConnectFoundat
       const chatTranscriptsBucket = new WdkS3(this, prefix + '-chat-transcripts-bucket', {
         prefix: prefix,
         bucketName: prefix + '-chat-transcripts-bucket',
-        encryptionKey: kmsKey,
+        encryptionKey: foundationEncryptionKey,
       } );
       chatTranscriptsBucketName = chatTranscriptsBucket.bucketName;
 
-      chatTranscriptsBucket.bucket.node.addDependency(kmsKey);
+      chatTranscriptsBucket.bucket.node.addDependency(foundationEncryptionKey);
     }
     const chatTranscrInstanceStorageConfig = new CfnInstanceStorageConfig(this, prefix + '-chat-transcripts-storage-config', {
       instanceArn: connectInstance.attrArn,
@@ -130,10 +132,10 @@ export class AmazonConnectFoundationStack extends WdkModule<AmazonConnectFoundat
       const scheduledReportsBucket = new WdkS3(this, prefix + '-scheduled-reports-bucket', {
         prefix: prefix,
         bucketName: prefix + '-scheduled-reports-bucket',
-        encryptionKey: kmsKey,
+        encryptionKey: foundationEncryptionKey,
       } );
       scheduledReportsBucketName = scheduledReportsBucket.bucketName;
-      scheduledReportsBucket.bucket.node.addDependency(kmsKey);
+      scheduledReportsBucket.bucket.node.addDependency(foundationEncryptionKey);
     }
     const scheduledReportsInstanceStorageConfig = new CfnInstanceStorageConfig(this, prefix + '-scheduled-reports-storage-config', {
       instanceArn: connectInstance.attrArn,
@@ -163,7 +165,7 @@ export class AmazonConnectFoundationStack extends WdkModule<AmazonConnectFoundat
       const ctrStream = new WdkKinesisStream(this, prefix + '-ctr-stream', {
         prefix: prefix,
         streamName: ctrStreamName,
-        encryptionKey: kmsKey,
+        encryptionKey: foundationEncryptionKey,
       } );
 
       const ctrStreamInstanceStorageConfig = new CfnInstanceStorageConfig(this, prefix + '-ctr-stream-storage-config', {
@@ -188,7 +190,7 @@ export class AmazonConnectFoundationStack extends WdkModule<AmazonConnectFoundat
       const agentEventsStream = new WdkKinesisStream(this, prefix + '-agent-events-stream', {
         prefix: prefix,
         streamName: agentEventsStreamName,
-        encryptionKey: kmsKey,
+        encryptionKey: foundationEncryptionKey,
       } );
 
       const agentEventsStreamInstanceStorageConfig = new CfnInstanceStorageConfig(this, prefix + '-agent-events-stream-storage-config', {
@@ -236,11 +238,11 @@ export class AmazonConnectFoundationStack extends WdkModule<AmazonConnectFoundat
         const screenRecordingsBucket = new WdkS3(this, prefix + '-screen-recordings-bucket', {
         prefix: prefix,
         bucketName: prefix + '-screen-recordings-bucket',
-        encryptionKey: kmsKey,
+        encryptionKey: foundationEncryptionKey,
       } );
       screenRecordingsBucketName = screenRecordingsBucket.bucketName;
       screenRecordingsBucketInstance = screenRecordingsBucket.bucket;
-      screenRecordingsBucketInstance.node.addDependency(kmsKey);
+      screenRecordingsBucketInstance.node.addDependency(foundationEncryptionKey);
     }
     
     // Use the new AwsCustomResource-based construct for screen recordings
@@ -251,7 +253,7 @@ export class AmazonConnectFoundationStack extends WdkModule<AmazonConnectFoundat
       resourceType: 'SCREEN_RECORDINGS',
       bucket: screenRecordingsBucketInstance,
       bucketPrefix: 'screen-recordings',
-      key: kmsKey,
+      key: foundationEncryptionKey,
     });
 
     // Ensure the storage config is created after the instance
@@ -273,11 +275,11 @@ export class AmazonConnectFoundationStack extends WdkModule<AmazonConnectFoundat
        const attachmentsBucket = new WdkS3(this, prefix + '-attachments-bucket', {
         prefix: prefix,
         bucketName: prefix + '-attachments-bucket',
-        encryptionKey: kmsKey,
+        encryptionKey: foundationEncryptionKey,
       } );
       attachmentsBucketName = attachmentsBucket.bucketName;
       attachmentsBucketInstance = attachmentsBucket.bucket;
-      attachmentsBucketInstance.node.addDependency(kmsKey);
+      attachmentsBucketInstance.node.addDependency(foundationEncryptionKey);
     }
     
     // Use the new AwsCustomResource-based construct for attachments
@@ -310,12 +312,12 @@ export class AmazonConnectFoundationStack extends WdkModule<AmazonConnectFoundat
     if( this.props.separateContactEvaluationsBucket ) {
         const contactEvaluationsBucket = new WdkS3(this, prefix + '-contact-evaluations-bucket', {
         prefix: prefix,
-        encryptionKey: kmsKey,
+        encryptionKey: foundationEncryptionKey,
         bucketName: prefix + '-contact-evaluations-bucket',
       } );
       contactEvaluationsBucketName = contactEvaluationsBucket.bucketName;
       contactEvaluationsBucketInstance = contactEvaluationsBucket.bucket;
-      contactEvaluationsBucketInstance.node.addDependency(kmsKey);
+      contactEvaluationsBucketInstance.node.addDependency(foundationEncryptionKey);
     }
     
     // Use the new AwsCustomResource-based construct for contact evaluations
@@ -326,7 +328,7 @@ export class AmazonConnectFoundationStack extends WdkModule<AmazonConnectFoundat
       resourceType: 'CONTACT_EVALUATIONS',
       bucket: contactEvaluationsBucketInstance,
       bucketPrefix: 'contact-evaluations',
-      key: kmsKey,
+      key: foundationEncryptionKey,
     });
     
     // Ensure the storage config is created after the instance
@@ -348,7 +350,7 @@ export class AmazonConnectFoundationStack extends WdkModule<AmazonConnectFoundat
       const realTimeContactAnalysisVoiceSegmentsStream = new WdkKinesisStream(this, prefix + '-real-time-contact-analysis-voice-segments-stream', {
         prefix: prefix,
         streamName: realTimeContactAnalysisVoiceSegmentsStreamName,
-        encryptionKey: kmsKey,
+        encryptionKey: foundationEncryptionKey,
       } );
 
       // Use new AwsCustomResource-based construct for real-time analysis voice segments
@@ -378,7 +380,7 @@ export class AmazonConnectFoundationStack extends WdkModule<AmazonConnectFoundat
       const realTimeContactAnalysisTextSegmentsStream = new WdkKinesisStream(this, prefix + '-real-time-contact-analysis-text-segments-stream', {
         prefix: prefix,
         streamName: realTimeContactAnalysisTextSegmentsStreamName,
-        encryptionKey: kmsKey,
+        encryptionKey: foundationEncryptionKey,
       } );
    
       // Use new AwsCustomResource-based construct for real-time analysis chat segments
